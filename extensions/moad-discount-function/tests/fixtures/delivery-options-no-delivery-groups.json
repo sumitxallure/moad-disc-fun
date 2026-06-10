@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "export": "cart-delivery-options-discounts-generate-run",
+    "target": "cart.delivery-options.discounts.generate.run",
+    "input": {
+      "cart": {
+        "attribute": {
+          "value": "{\"evaluation_id\":\"eval-6\",\"evaluation_version\":\"1\",\"line_discounts\":[],\"order_discounts\":[],\"shipping_discounts\":[{\"discount_cents\":500,\"label\":\"Ship Promo\"}],\"total_discount_cents\":500}"
+        },
+        "versionAttribute": {
+          "value": "v1"
+        },
+        "deliveryGroups": []
+      },
+      "discount": {
+        "discountClasses": ["SHIPPING"]
+      }
+    },
+    "output": {
+      "operations": []
+    }
+  }
+}

@@ -1,0 +1,26 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "aeee513e4650cba87637d74f1e8b6d71"
+name = "MOADproject"
+application_url = "https://bracket-figures-deposit-springer.trycloudflare.com"
+embedded = true
+
+[webhooks]
+api_version = "2026-01"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_customer_events,read_customers,write_customers,read_customer_data_erasure,write_customer_data_erasure,read_customer_merge,read_price_rules,write_price_rules,read_discounts,write_discounts,read_discounts_allocator_functions,write_discounts_allocator_functions,read_products,write_products,customer_read_companies,customer_write_companies,customer_write_customers,customer_read_customers,customer_read_draft_orders,customer_read_markets,customer_read_metaobjects,customer_read_orders,customer_write_orders,customer_read_quick_sale,customer_write_quick_sale,customer_read_store_credit_account_transactions,customer_read_store_credit_accounts,unauthenticated_write_checkouts,unauthenticated_write_customers,unauthenticated_read_customers,unauthenticated_read_customer_tags"
+optional_scopes = [ ]
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = [
+  "https://unwailed-kara-pertinaciously.ngrok-free.dev/auth/callback"
+]
+
+[pos]
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true

@@ -1,0 +1,19 @@
+query DeliveryInput {
+  cart {
+    attribute(key: "moad_discount_payload") {
+      value
+    }
+    signatureAttribute: attribute(key: "moad_discount_signature") {
+      value
+    }
+    versionAttribute: attribute(key: "moad_discount_version") {
+      value
+    }
+    deliveryGroups {
+      id
+    }
+  }
+  discount {
+    discountClasses
+  }
+}

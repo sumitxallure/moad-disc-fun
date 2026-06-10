@@ -1,0 +1,17 @@
+{{ 'cart-token-block.js' | asset_url | script_tag }}
+
+{%- assign customer_id = customer.id | default: '' -%}
+
+<div
+  class="moad-cart-token-block"
+  data-shop-domain="{{ shop.permanent_domain }}"
+  data-customer-id="{{ customer_id }}"
+></div>
+
+{% schema %}
+{
+  "name": "MOAD Cart Token Block",
+  "target": "section",
+  "settings": []
+}
+{% endschema %}

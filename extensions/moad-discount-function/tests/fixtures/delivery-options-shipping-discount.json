@@ -1,0 +1,50 @@
+{
+  "payload": {
+    "export": "cart-delivery-options-discounts-generate-run",
+    "target": "cart.delivery-options.discounts.generate.run",
+    "input": {
+      "discount": {
+        "discountClasses": ["SHIPPING"]
+      },
+      "cart": {
+        "attribute": {
+          "value": "{\"evaluation_id\":\"eval-5\",\"evaluation_version\":\"1\",\"line_discounts\":[{\"line_id\":\"gid://shopify/CartLine/1\",\"discount_cents\":100}],\"order_discounts\":[{\"discount_cents\":200}],\"shipping_discounts\":[{\"discount_cents\":500,\"label\":\"Free-ish Shipping\"}],\"total_discount_cents\":800}"
+        },
+        "versionAttribute": {
+          "value": "v1"
+        },
+        "deliveryGroups": [
+          {
+            "id": "gid://shopify/CartDeliveryGroup/1"
+          }
+        ]
+      }
+    },
+    "output": {
+      "operations": [
+        {
+          "deliveryDiscountsAdd": {
+            "candidates": [
+              {
+                "message": "Free-ish Shipping",
+                "targets": [
+                  {
+                    "deliveryGroup": {
+                      "id": "gid://shopify/CartDeliveryGroup/1"
+                    }
+                  }
+                ],
+                "value": {
+                  "fixedAmount": {
+                    "amount": 5.0
+                  }
+                }
+              }
+            ],
+            "selectionStrategy": "ALL"
+          }
+        }
+      ]
+    }
+  }
+}

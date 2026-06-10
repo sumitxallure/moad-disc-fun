@@ -1,0 +1,24 @@
+query CartInput {
+  cart {
+    attribute(key: "moad_discount_payload") {
+      value
+    }
+    signatureAttribute: attribute(key: "moad_discount_signature") {
+      value
+    }
+    versionAttribute: attribute(key: "moad_discount_version") {
+      value
+    }
+    lines {
+      id
+      cost {
+        subtotalAmount {
+          amount
+        }
+      }
+    }
+  }
+  discount {
+    discountClasses
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "export": "cart-delivery-options-discounts-generate-run",
+    "target": "cart.delivery-options.discounts.generate.run",
+    "input": {
+      "cart": {
+        "attribute": null,
+        "versionAttribute": null,
+        "deliveryGroups": [
+          {
+            "id": "gid://shopify/DeliveryGroup/0"
+          }
+        ]
+      },
+      "discount": {
+        "discountClasses": []
+      }
+    },
+    "output": {
+      "operations": []
+    }
+  }
+}
