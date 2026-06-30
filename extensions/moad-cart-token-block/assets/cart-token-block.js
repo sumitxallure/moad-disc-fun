@@ -56,6 +56,45 @@
       });
     }
 
+    function updateCartAttributes(attributes) {
+      if (!Array.isArray(attributes) || !attributes.length) {
+        return Promise.resolve(false);
+      }
+
+      const body = new URLSearchParams();
+      attributes.forEach((attribute) => {
+        if (attribute && attribute.key && typeof attribute.value === "string") {
+          body.append(`attributes[${attribute.key}]`, attribute.value);
+        }
+      });
+
+      if (!body.toString()) {
+        return Promise.resolve(false);
+      }
+
+      const url =
+        window.Shopify && window.Shopify.routes && window.Shopify.routes.root
+          ? window.Shopify.routes.root + "cart/update.js"
+          : "/cart/update.js";
+
+      console.log("Updating cart attributes through storefront:", url);
+
+      return fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          Accept: "application/json",
+        },
+        body,
+      }).then((response) => {
+        console.log("Cart attributes update status:", response.status);
+        if (!response.ok) {
+          throw new Error(`Cart attributes update failed: ${response.status}`);
+        }
+        return true;
+      });
+    }
+
     blocks.forEach((block) => {
       const shopDomain = block.dataset.shopDomain || "";
       const customerId = block.dataset.customerId || "";
@@ -113,10 +152,28 @@
         .then((syncResult) => {
           if (syncResult) {
             console.log("Cart mapping saved successfully:", syncResult.result);
-            if (syncResult.result && syncResult.result.attributesSynced === true) {
-              localStorage.setItem(syncResult.storageKey, syncResult.cartSignature);
+            if (!syncResult.result) {
+              return;
             }
-          }
+            if (syncResult.result.attributesSynced === true) {
+              localStorage.setItem(
+                syncResult.storageKey,
+                syncResult.cartSignature,
+              );
+              return;
+            }
+
+            return updateCartAttributes(syncResult.result.attributes).then(
+              (updated) => {
+                if (updated) {
+                  localStorage.setItem(
+                    syncResult.storageKey,
+                    syncResult.cartSignature,
+                  );
+                }
+              },
+            );
+            }
         })
         .catch((error) => {
           console.error("Failed to save cart mapping:", error);
