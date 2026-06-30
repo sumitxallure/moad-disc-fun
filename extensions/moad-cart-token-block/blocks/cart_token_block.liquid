@@ -1,4 +1,4 @@
-{{ 'cart-token-block.js' | asset_url | script_tag }}
+<script src="{{ 'cart-token-block.js' | asset_url }}" defer></script>
 
 {%- assign customer_id = customer.id | default: '' -%}
 
@@ -11,7 +11,7 @@
 {% schema %}
 {
   "name": "MOAD Cart Token Block",
-  "target": "section",
+  "target": "body",
   "settings": []
 }
 {% endschema %}
