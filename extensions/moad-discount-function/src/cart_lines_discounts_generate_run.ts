@@ -145,6 +145,73 @@ type AggregatedLineDiscount = {
   messages: string[];
 };
 
+function normalizeShopifyId(value: unknown): string | null {
+  if (typeof value !== 'string' || !value.trim()) {
+    return null;
+  }
+  const trimmed = value.trim();
+  const last = trimmed.includes('/') ? trimmed.split('/').pop() : trimmed;
+  return (last ?? trimmed).toLowerCase();
+}
+
+function getCartJsVariantId(value: unknown): string | null {
+  if (typeof value !== 'string' || !value.startsWith('cartjs:')) {
+    return null;
+  }
+
+  const withoutPrefix = value.slice('cartjs:'.length);
+  const variantId = withoutPrefix.split(':')[0];
+  return normalizeShopifyId(variantId);
+}
+
+function buildCartJsLineIdMap(input: CartInput): Map<string, string> {
+  const variantLineIds = new Map<string, string[]>();
+
+  for (const line of input.cart.lines) {
+    if (line.merchandise.__typename !== 'ProductVariant') {
+      continue;
+    }
+
+    const variantId = normalizeShopifyId(line.merchandise.id);
+    if (!variantId) {
+      continue;
+    }
+
+    const lineIds = variantLineIds.get(variantId) ?? [];
+    lineIds.push(line.id);
+    variantLineIds.set(variantId, lineIds);
+  }
+
+  const resolved = new Map<string, string>();
+  for (const [variantId, lineIds] of variantLineIds) {
+    // cart.js keys only include the variant id plus a property hash. Shopify
+    // Functions do not expose that cart.js key, so resolve only unambiguous
+    // variant matches and skip duplicates instead of discounting the wrong line.
+    if (lineIds.length === 1) {
+      resolved.set(variantId, lineIds[0]);
+    }
+  }
+
+  return resolved;
+}
+
+function resolvePayloadLineId(
+  rawLineId: unknown,
+  inputLineIds: Set<string>,
+  cartJsLineIdMap: Map<string, string>,
+): string | null {
+  if (typeof rawLineId !== 'string') {
+    return null;
+  }
+
+  if (inputLineIds.has(rawLineId)) {
+    return rawLineId;
+  }
+
+  const cartJsVariantId = getCartJsVariantId(rawLineId);
+  return cartJsVariantId ? cartJsLineIdMap.get(cartJsVariantId) ?? null : null;
+}
+
 function mapLineDiscounts(
   input: CartInput,
   payload: MoadDiscountPayload,
@@ -157,22 +224,25 @@ function mapLineDiscounts(
 
   const inputLineIds = input.cart.lines.map((line) => line.id);
   const lineIds = new Set(inputLineIds);
+  const cartJsLineIdMap = buildCartJsLineIdMap(input);
   debugLog('Input cart line ids available for targeting', inputLineIds);
 
   const aggregatedDiscounts = Array.from(
     lineDiscounts.reduce((groups, entry) => {
-      const lineId = typeof entry.line_id === 'string' ? entry.line_id : null;
+      const lineId = resolvePayloadLineId(entry.line_id, lineIds, cartJsLineIdMap);
       const hasValidLineId = lineId !== null;
-      const matchesInputLine = lineId !== null && lineIds.has(lineId);
+      const matchesInputLine = lineId !== null;
       const cents = asValidCents(entry.discount_cents);
 
       debugLog('Evaluating line discount entry', {
         line_id: entry.line_id ?? null,
+        resolved_line_id: lineId,
         discount_cents: entry.discount_cents ?? null,
         parsed_cents: cents,
         has_valid_line_id: hasValidLineId,
         matches_input_line: matchesInputLine,
         available_input_line_ids: inputLineIds,
+        cartjs_variant_map_keys: Array.from(cartJsLineIdMap.keys()),
       });
 
       if (!matchesInputLine) {

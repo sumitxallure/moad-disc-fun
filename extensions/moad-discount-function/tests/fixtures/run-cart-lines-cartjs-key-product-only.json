@@ -1,0 +1,30 @@
+{
+  "cart": {
+    "attribute": {
+      "value": "{\"evaluation_id\":\"eval-cartjs\",\"evaluation_version\":\"v1\",\"line_discounts\":[{\"line_id\":\"cartjs:50097808769302:00f72d468e3fc0128cfaeca84f20c0b2\",\"discount_cents\":199,\"label\":\"10% Off Everything\"}],\"order_discounts\":[],\"shipping_discounts\":[],\"total_discount_cents\":199}"
+    },
+    "signatureAttribute": {
+      "value": "test-signature"
+    },
+    "versionAttribute": {
+      "value": "v1"
+    },
+    "lines": [
+      {
+        "id": "gid://shopify/CartLine/0",
+        "merchandise": {
+          "__typename": "ProductVariant",
+          "id": "gid://shopify/ProductVariant/50097808769302"
+        },
+        "cost": {
+          "subtotalAmount": {
+            "amount": "19.99"
+          }
+        }
+      }
+    ]
+  },
+  "discount": {
+    "discountClasses": ["PRODUCT"]
+  }
+}

@@ -11,6 +11,12 @@ query CartInput {
     }
     lines {
       id
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+        }
+      }
       cost {
         subtotalAmount {
           amount
