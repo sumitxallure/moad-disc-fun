@@ -139,6 +139,12 @@ function toDiscountEntries(value: unknown): MoadDiscountEntry[] {
   return Array.isArray(value) ? (value as MoadDiscountEntry[]) : [];
 }
 
+type AggregatedLineDiscount = {
+  lineId: string;
+  discountCents: number;
+  messages: string[];
+};
+
 function mapLineDiscounts(
   input: CartInput,
   payload: MoadDiscountPayload,
@@ -153,10 +159,11 @@ function mapLineDiscounts(
   const lineIds = new Set(inputLineIds);
   debugLog('Input cart line ids available for targeting', inputLineIds);
 
-  const candidates = lineDiscounts
-    .map((entry) => {
-      const hasValidLineId = typeof entry.line_id === 'string';
-      const matchesInputLine = hasValidLineId && lineIds.has(entry.line_id);
+  const aggregatedDiscounts = Array.from(
+    lineDiscounts.reduce((groups, entry) => {
+      const lineId = typeof entry.line_id === 'string' ? entry.line_id : null;
+      const hasValidLineId = lineId !== null;
+      const matchesInputLine = lineId !== null && lineIds.has(lineId);
       const cents = asValidCents(entry.discount_cents);
 
       debugLog('Evaluating line discount entry', {
@@ -173,7 +180,7 @@ function mapLineDiscounts(
           payload_line_id: entry.line_id ?? null,
           available_input_line_ids: inputLineIds,
         });
-        return null;
+        return groups;
       }
 
       if (!cents) {
@@ -181,21 +188,40 @@ function mapLineDiscounts(
           line_id: entry.line_id,
           discount_cents: entry.discount_cents ?? null,
         });
-        return null;
+        return groups;
       }
 
-      return {
-        ...(getMessage(entry) ? {message: getMessage(entry)} : {}),
-        targets: [{cartLine: {id: entry.line_id}}],
-        value: {
-          fixedAmount: {
-            amount: centsToAmount(cents),
-            appliesToEachItem: false,
-          },
-        },
+      const group = groups.get(lineId) ?? {
+        lineId,
+        discountCents: 0,
+        messages: [],
       };
-    })
-    .filter((candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate));
+      const message = getMessage(entry);
+
+      group.discountCents += cents;
+      if (message) {
+        group.messages.push(message);
+      }
+
+      groups.set(lineId, group);
+      return groups;
+    }, new Map<string, AggregatedLineDiscount>()).values(),
+  );
+
+  const candidates = aggregatedDiscounts.map((discount) => {
+    const message = discount.messages.join(' + ');
+
+    return {
+      ...(message ? {message} : {}),
+      targets: [{cartLine: {id: discount.lineId}}],
+      value: {
+        fixedAmount: {
+          amount: centsToAmount(discount.discountCents),
+          appliesToEachItem: false,
+        },
+      },
+    };
+  });
 
   if (!candidates.length) {
     debugLog('No valid line discount candidates were produced', {

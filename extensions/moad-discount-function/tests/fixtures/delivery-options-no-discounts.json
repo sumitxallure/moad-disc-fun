@@ -8,7 +8,15 @@
         "versionAttribute": null,
         "deliveryGroups": [
           {
-            "id": "gid://shopify/DeliveryGroup/0"
+            "id": "gid://shopify/DeliveryGroup/0",
+            "deliveryOptions": [
+              {
+                "handle": "standard-shipping",
+                "cost": {
+                  "amount": "4.90"
+                }
+              }
+            ]
           }
         ]
       },

@@ -1,4 +1,5 @@
 query DeliveryInput {
+  triggeringDiscountCode
   cart {
     attribute(key: "moad_discount_payload") {
       value
@@ -9,11 +10,37 @@ query DeliveryInput {
     versionAttribute: attribute(key: "moad_discount_version") {
       value
     }
+    lines {
+      quantity
+      cost {
+        subtotalAmount {
+          amount
+        }
+      }
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+          product {
+            id
+          }
+        }
+      }
+    }
     deliveryGroups {
       id
+      deliveryOptions {
+        handle
+        cost {
+          amount
+        }
+      }
     }
   }
   discount {
     discountClasses
+    manualShippingConfig: metafield(namespace: "$app", key: "moad_manual_shipping") {
+      jsonValue
+    }
   }
 }

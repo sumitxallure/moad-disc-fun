@@ -8,7 +8,7 @@
       },
       "cart": {
         "attribute": {
-          "value": "{\"evaluation_id\":\"eval-5\",\"evaluation_version\":\"1\",\"line_discounts\":[{\"line_id\":\"gid://shopify/CartLine/1\",\"discount_cents\":100}],\"order_discounts\":[{\"discount_cents\":200}],\"shipping_discounts\":[{\"discount_cents\":500,\"label\":\"Free-ish Shipping\"}],\"total_discount_cents\":800}"
+          "value": "{\"evaluation_id\":\"eval-11\",\"evaluation_version\":\"1\",\"line_discounts\":[],\"order_discounts\":[],\"shipping_discounts\":[{\"discount_cents\":1500,\"label\":\"Free Shipping\"}],\"total_discount_cents\":1500}"
         },
         "versionAttribute": {
           "value": "v1"
@@ -34,7 +34,7 @@
           "deliveryDiscountsAdd": {
             "candidates": [
               {
-                "message": "Free-ish Shipping",
+                "message": "Free Shipping",
                 "targets": [
                   {
                     "deliveryOption": {
@@ -44,7 +44,7 @@
                 ],
                 "value": {
                   "fixedAmount": {
-                    "amount": 5.0
+                    "amount": 15.0
                   }
                 }
               }

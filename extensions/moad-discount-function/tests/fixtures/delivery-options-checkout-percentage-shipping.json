@@ -1,0 +1,79 @@
+{
+  "payload": {
+    "export": "cart-delivery-options-discounts-generate-run",
+    "target": "cart.delivery-options.discounts.generate.run",
+    "input": {
+      "discount": {
+        "discountClasses": ["SHIPPING"]
+      },
+      "cart": {
+        "attribute": {
+          "value": "{\"evaluation_id\":\"eval-20\",\"evaluation_version\":\"v1\",\"line_discounts\":[],\"order_discounts\":[],\"shipping_discounts\":[{\"discount_cents\":0,\"promotion_id\":\"ship-50\",\"promotion_name\":\"SHIP-05: 50% off shipping\",\"label\":\"50% Off Shipping\",\"value_type\":\"percentage\",\"value\":50,\"calculated_at_checkout\":true}],\"total_discount_cents\":0}"
+        },
+        "versionAttribute": {
+          "value": "v1"
+        },
+        "deliveryGroups": [
+          {
+            "id": "gid://shopify/CartDeliveryGroup/1",
+            "deliveryOptions": [
+              {
+                "handle": "economy",
+                "cost": {
+                  "amount": "4.90"
+                }
+              },
+              {
+                "handle": "standard",
+                "cost": {
+                  "amount": "9.90"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "output": {
+      "operations": [
+        {
+          "deliveryDiscountsAdd": {
+            "candidates": [
+              {
+                "message": "50% Off Shipping",
+                "targets": [
+                  {
+                    "deliveryOption": {
+                      "handle": "economy"
+                    }
+                  }
+                ],
+                "value": {
+                  "percentage": {
+                    "value": "50.00"
+                  }
+                }
+              },
+              {
+                "message": "50% Off Shipping",
+                "targets": [
+                  {
+                    "deliveryOption": {
+                      "handle": "standard"
+                    }
+                  }
+                ],
+                "value": {
+                  "percentage": {
+                    "value": "50.00"
+                  }
+                }
+              }
+            ],
+            "selectionStrategy": "ALL"
+          }
+        }
+      ]
+    }
+  }
+}

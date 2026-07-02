@@ -8,7 +8,7 @@
       },
       "cart": {
         "attribute": {
-          "value": "{\"evaluation_id\":\"eval-5\",\"evaluation_version\":\"1\",\"line_discounts\":[{\"line_id\":\"gid://shopify/CartLine/1\",\"discount_cents\":100}],\"order_discounts\":[{\"discount_cents\":200}],\"shipping_discounts\":[{\"discount_cents\":500,\"label\":\"Free-ish Shipping\"}],\"total_discount_cents\":800}"
+          "value": "{\"evaluation_id\":\"eval-21\",\"evaluation_version\":\"v1\",\"line_discounts\":[],\"order_discounts\":[],\"shipping_discounts\":[{\"discount_cents\":0,\"promotion_id\":\"ship-10\",\"promotion_name\":\"SHIP-04: $10 off shipping\",\"label\":\"$10 Off Shipping\",\"value_type\":\"fixed_amount\",\"value\":1000,\"calculated_at_checkout\":true}],\"total_discount_cents\":0}"
         },
         "versionAttribute": {
           "value": "v1"
@@ -18,9 +18,15 @@
             "id": "gid://shopify/CartDeliveryGroup/1",
             "deliveryOptions": [
               {
-                "handle": "standard-shipping",
+                "handle": "economy",
                 "cost": {
                   "amount": "4.90"
+                }
+              },
+              {
+                "handle": "standard",
+                "cost": {
+                  "amount": "9.90"
                 }
               }
             ]
@@ -34,17 +40,32 @@
           "deliveryDiscountsAdd": {
             "candidates": [
               {
-                "message": "Free-ish Shipping",
+                "message": "$10 Off Shipping",
                 "targets": [
                   {
                     "deliveryOption": {
-                      "handle": "standard-shipping"
+                      "handle": "economy"
                     }
                   }
                 ],
                 "value": {
                   "fixedAmount": {
-                    "amount": 5.0
+                    "amount": "4.90"
+                  }
+                }
+              },
+              {
+                "message": "$10 Off Shipping",
+                "targets": [
+                  {
+                    "deliveryOption": {
+                      "handle": "standard"
+                    }
+                  }
+                ],
+                "value": {
+                  "fixedAmount": {
+                    "amount": "9.90"
                   }
                 }
               }

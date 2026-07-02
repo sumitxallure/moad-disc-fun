@@ -8,10 +8,10 @@
       },
       "cart": {
         "attribute": {
-          "value": "{\"evaluation_id\":\"eval-7\",\"evaluation_version\":\"1\",\"line_discounts\":[],\"order_discounts\":[],\"shipping_discounts\":[{\"discount_cents\":500,\"label\":\"Ship Promo\"}],\"total_discount_cents\":500}"
+          "value": "{\"evaluation_id\":\"eval-14\",\"evaluation_version\":\"1\",\"line_discounts\":[],\"order_discounts\":[],\"shipping_discounts\":[{\"discount_cents\":0,\"label\":\"Zero Shipping\"},{\"discount_cents\":-500,\"label\":\"Negative Shipping\"}],\"total_discount_cents\":0}"
         },
         "versionAttribute": {
-          "value": "v2"
+          "value": "v1"
         },
         "deliveryGroups": [
           {

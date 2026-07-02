@@ -1,0 +1,78 @@
+{
+  "payload": {
+    "export": "cart-lines-discounts-generate-run",
+    "target": "cart.lines.discounts.generate.run",
+    "input": {
+      "cart": {
+        "attribute": {
+          "value": "{\"evaluation_id\":\"eval-8\",\"evaluation_version\":\"1\",\"line_discounts\":[{\"line_id\":\"gid://shopify/CartLine/0\",\"discount_cents\":2500,\"label\":\"Expired Sale\"},{\"line_id\":\"gid://shopify/CartLine/0\",\"discount_cents\":1000,\"label\":\"Test1\"},{\"line_id\":\"gid://shopify/CartLine/0\",\"discount_cents\":0,\"label\":\"Zero\"},{\"line_id\":\"gid://shopify/CartLine/0\",\"discount_cents\":-100,\"label\":\"Negative\"}],\"order_discounts\":[{\"discount_cents\":150,\"label\":\"10% Off Order\"}],\"shipping_discounts\":[],\"total_discount_cents\":3650}"
+        },
+        "versionAttribute": {
+          "value": "v1"
+        },
+        "lines": [
+          {
+            "id": "gid://shopify/CartLine/0",
+            "cost": {
+              "subtotalAmount": {
+                "amount": "100.0"
+              }
+            }
+          }
+        ]
+      },
+      "discount": {
+        "discountClasses": ["PRODUCT", "ORDER"]
+      }
+    },
+    "output": {
+      "operations": [
+        {
+          "orderDiscountsAdd": {
+            "candidates": [
+              {
+                "message": "10% Off Order",
+                "targets": [
+                  {
+                    "orderSubtotal": {
+                      "excludedCartLineIds": []
+                    }
+                  }
+                ],
+                "value": {
+                  "fixedAmount": {
+                    "amount": 1.5
+                  }
+                }
+              }
+            ],
+            "selectionStrategy": "MAXIMUM"
+          }
+        },
+        {
+          "productDiscountsAdd": {
+            "candidates": [
+              {
+                "message": "Expired Sale + Test1",
+                "targets": [
+                  {
+                    "cartLine": {
+                      "id": "gid://shopify/CartLine/0"
+                    }
+                  }
+                ],
+                "value": {
+                  "fixedAmount": {
+                    "amount": 35.0,
+                    "appliesToEachItem": false
+                  }
+                }
+              }
+            ],
+            "selectionStrategy": "ALL"
+          }
+        }
+      ]
+    }
+  }
+}
