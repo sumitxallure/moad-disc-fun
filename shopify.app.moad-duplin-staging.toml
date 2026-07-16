@@ -10,19 +10,19 @@ api_version = "2026-01"
 
   [[webhooks.subscriptions]]
   topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app-uninstalled"
+  uri = "https://moad-api.allurecommerce.com/webhooks/app-uninstalled"
 
   [[webhooks.subscriptions]]
   compliance_topics = [ "customers/data_request" ]
-  uri = "/webhooks/customers-data-request"
+  uri = "https://moad-api.allurecommerce.com/webhooks/customers-data-request"
 
   [[webhooks.subscriptions]]
   compliance_topics = [ "customers/redact" ]
-  uri = "/webhooks/customers-redact"
+  uri = "https://moad-api.allurecommerce.com/webhooks/customers-redact"
 
   [[webhooks.subscriptions]]
   compliance_topics = [ "shop/redact" ]
-  uri = "/webhooks/shop-redact"
+  uri = "https://moad-api.allurecommerce.com/webhooks/shop-redact"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
