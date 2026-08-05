@@ -1,0 +1,34 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "9fd72cdef8d5316c9ced8fa68a699598"
+name = "moad-discount-public-app"
+application_url = "https://moad.allurecommerce.com"
+embedded = true
+
+[webhooks]
+api_version = "2026-01"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/webhooks/app/scopes_update"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_products,read_customers,read_discounts,write_discounts,read_orders,unauthenticated_write_checkouts"
+optional_scopes = [ ]
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = [
+  "https://moad-api.allurecommerce.com/auth/callback"
+]
+
+[pos]
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
